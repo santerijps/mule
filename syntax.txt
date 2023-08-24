@@ -1,0 +1,44 @@
+[
+  {1 ..< 1000} # 1, 2, 3, ... 999
+  (filter @{$1 % 3 == 0 || $1 % 5 == 0})
+  (\+) # 233168
+  (print)
+]
+
+## Variables
+{name = "Alice"}
+(= name "Alice")
+{x = (+ 1 2 3 4)}
+(= x (+ 1 2 3 4))
+
+## Control flow
+(? {a < b} a b) # min-function body (? condition true false)
+
+## List literals
+{nums = '(1 2 3)}
+(= nums '(1 2 3 (* 2 2)))
+
+## Functions
+{square = (@ '(x) (* x x))} # explicitly defined parameters
+{square = @(* $ $)}         # implicit parameters
+(= square @(* $ $))
+
+prefix expression   = (function args...)
+infix expression    = {argN function argN+1 ...} # Precedence is from left to right
+pipe expression     = [ exprN exprN+1 ... ]
+list literal        = #(items...)
+anonymous function  = @() @{} # $-symbol indicates implicit function parameters
+
+- Everything can be evaluated!
+- Currying in piped prefix expressions
+- Memoization in recursive functions
+- Built-in functions
+- Keywords or symbols?
+- Reduceres only allowed in prefix expressions
+- Infix expressions always take 2 parameters (args)
+
+0. The program is made up of lists (expressions), the program is a list of expressions
+1. Every list is made up of items
+2. Items are either values or expressions
+3. Values are either literals or names (variables)
+4. Expressions are either prefix, infix or pipe expressions
